@@ -3,10 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Reviv"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel Visibility="Collapsed">
+            <Label>Reviv</Label>
+            <TextBlock TextWrapping="Wrap">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut mauris a lectus dapibus efficitur. Donec nisl est, luctus ut sem eget, consectetur dictum quam.</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label>boot2_ipx.bin</Label>
+                <Button>Select Boot File</Button>
+            </StackPanel>
+            <Button>Reviv it</Button>
+        </StackPanel>
+
+        <StackPanel Visibility="Collapsed">
+            <TextBlock>
+                <Run>Performing SysCfg acquisition on</Run>
+                <Run>boot2_ipx.bin</Run>
+            </TextBlock>
+            <ProgressBar Height="20"></ProgressBar>
+        </StackPanel>
+
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <Button>Start Over</Button>
+                <Button>Save as .txt</Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
