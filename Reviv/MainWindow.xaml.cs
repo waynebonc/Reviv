@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,25 @@ namespace Reviv
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string _DumpFilePath;
         public MainWindow()
         {
             InitializeComponent();
+
+            _DumpFilePath = null;
+        }
+
+        private void SelectBootFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Binary Files (*.bin)|*.bin|Dump Files (*.dump)|*.dump|All Files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _DumpFilePath = openFileDialog.FileName;
+
+                Revive.Visibility = Visibility.Visible;
+            }
         }
     }
 }

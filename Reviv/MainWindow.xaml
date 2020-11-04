@@ -6,14 +6,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Visibility="Collapsed">
+        <StackPanel Visibility="Visible">
             <Label>Reviv</Label>
             <TextBlock TextWrapping="Wrap">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut mauris a lectus dapibus efficitur. Donec nisl est, luctus ut sem eget, consectetur dictum quam.</TextBlock>
             <StackPanel Orientation="Horizontal">
                 <Label>boot2_ipx.bin</Label>
-                <Button>Select Boot File</Button>
+                <Button x:Name="SelectBootFile" Click="SelectBootFile_Click">Select Boot File</Button>
             </StackPanel>
-            <Button>Reviv it</Button>
+            <Button x:Name="Revive" Visibility="Hidden">Reviv it</Button>
         </StackPanel>
 
         <StackPanel Visibility="Collapsed">
@@ -24,7 +24,7 @@
             <ProgressBar Height="20"></ProgressBar>
         </StackPanel>
 
-        <StackPanel>
+        <StackPanel Visibility="Collapsed">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
