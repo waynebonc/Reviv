@@ -146,8 +146,6 @@ namespace Reviv
                     value.Content = "Acquisition Failed";
                     value.Foreground = System.Windows.Media.Brushes.Red;
                 }
-                
-
 
                 CarvedSysCfgGrid.Children.Add(value);
                 Grid.SetRow(value, CarvedSysCfgGrid.RowDefinitions.Count - 1);

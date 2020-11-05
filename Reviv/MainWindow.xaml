@@ -4,16 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="" Height="350" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="CanResize" WindowStyle="ToolWindow">
     <Grid>
-        <StackPanel Visibility="Visible" Name="FirstPanel">
-            <Label>Reviv</Label>
-            <TextBlock TextWrapping="Wrap">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut mauris a lectus dapibus efficitur. Donec nisl est, luctus ut sem eget, consectetur dictum quam.</TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <Label Name="BootFileLabel">boot2_ipx.bin</Label>
-                <Button x:Name="SelectBootFile" Click="SelectBootFile_Click">Select Boot File</Button>
+        <StackPanel Visibility="Visible" Name="FirstPanel" HorizontalAlignment="Center">
+            <TextBlock FontSize="45" HorizontalAlignment="Center" Margin="0 15 0 10">Reviv</TextBlock>
+            
+            <TextBlock FontSize="15" HorizontalAlignment="Center" MaxWidth="500" TextWrapping="Wrap">A NAND SysCfg extraction utility using forensic file carving techniques.</TextBlock>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 35 0 40">
+                <Label Name="BootFileLabel">No File Selected</Label>
+                <Button x:Name="SelectBootFile" Click="SelectBootFile_Click" Width="100" Height="30">Select Boot File</Button>
             </StackPanel>
-            <Button x:Name="Riviv" Visibility="Hidden" Click="Riviv_Click">Reviv it</Button>
+            
+            <Button x:Name="Riviv" Visibility="Hidden" HorizontalAlignment="Center" Click="Riviv_Click" Width="150" Height="50">Reviv it</Button>
         </StackPanel>
 
         <StackPanel Visibility="Collapsed" Name="SecondPanel">
@@ -24,7 +27,7 @@
             <ProgressBar Height="20" Name="CarveProgress"></ProgressBar>
         </StackPanel>
 
-        <StackPanel Visibility="Collapsed" Name="ThirdPanel">
+        <StackPanel Visibility="Collapsed" Name="ThirdPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid x:Name="CarvedSysCfgGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -34,10 +37,20 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
             </Grid>
-            <StackPanel Orientation="Horizontal">
-                <Button>Start Over</Button>
-                <Button>Save as .txt</Button>
-            </StackPanel>
+            
+            <Grid Margin="0 50 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Width="90" Height="25">Start Over</Button>
+                <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25">Save as .txt</Button>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>
