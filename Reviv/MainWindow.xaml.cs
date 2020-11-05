@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Reviv
 {
@@ -30,7 +33,10 @@ namespace Reviv
             {
                 new SysCfgItem { Key = "SrNm", DisplayName = "Serial Number", IsHex = false},
                 new SysCfgItem { Key = "WMac", DisplayName = "Wi-Fi MAC Address", IsHex = true},
-                new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true}
+                new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true},
+                new SysCfgItem { Key = "Mod#", DisplayName = "Model Number", IsHex = false},
+                new SysCfgItem { Key = "Regn", DisplayName = "Region", IsHex = false},
+                new SysCfgItem { Key = "RMd#", DisplayName = "Model", IsHex = false}
             };
 
             _CarveSysCfgWorker = new BackgroundWorker();
@@ -68,7 +74,7 @@ namespace Reviv
 
             if (_BoyerMoore.Search(_BootFileDump) == -1)
             {
-                MessageBox.Show(this, "This file does not contain SysCfg data.", "Unable", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "This file does not contain SysCfg data.", "Unsupported", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             
@@ -116,7 +122,37 @@ namespace Reviv
 
         private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            FirstPanel.Visibility = Visibility.Collapsed;
+            ThirdPanel.Visibility = Visibility.Visible;
+
+            foreach (SysCfgItem item in _SysCfg)
+            {
+                CarvedSysCfgGrid.RowDefinitions.Add(new RowDefinition());
+
+                System.Windows.Controls.Label name = new System.Windows.Controls.Label();
+                name.Content = item.DisplayName;
+                CarvedSysCfgGrid.Children.Add(name);
+                Grid.SetRow(name, CarvedSysCfgGrid.RowDefinitions.Count - 1);
+                Grid.SetColumn(name, CarvedSysCfgGrid.ColumnDefinitions.Count - 2);
+
+                System.Windows.Controls.Label value = new System.Windows.Controls.Label();
+
+                if (item.RawValue != null)
+                {
+                    value.Content = item.IsHex ? ByteArrToString(item.RawValue) : Encoding.ASCII.GetString(item.RawValue);
+                }
+                else
+                {
+                    value.Content = "Acquisition Failed";
+                    value.Foreground = System.Windows.Media.Brushes.Red;
+                }
+                
+
+
+                CarvedSysCfgGrid.Children.Add(value);
+                Grid.SetRow(value, CarvedSysCfgGrid.RowDefinitions.Count - 1);
+                Grid.SetColumn(value, CarvedSysCfgGrid.ColumnDefinitions.Count - 1);
+            }
         }
 
         private string StringReverse(string s)
@@ -124,6 +160,11 @@ namespace Reviv
             char[] charArr = s.ToCharArray();
             Array.Reverse(charArr);
             return new string(charArr);
+        }
+
+        public string ByteArrToString(byte[] arr)
+        {
+            return BitConverter.ToString(arr).Replace("-", "");
         }
     }
 }
