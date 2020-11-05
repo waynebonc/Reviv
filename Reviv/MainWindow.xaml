@@ -48,8 +48,8 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="0" Width="90" Height="25">Start Over</Button>
-                <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25">Save as .txt</Button>
+                <Button Grid.Column="0" Grid.Row="0" Width="90" Height="25" Name="StartOver" Click="StartOver_Click">Start Over</Button>
+                <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25" Name="SaveTxt" Click="SaveTxt_Click">Save as .txt</Button>
             </Grid>
         </StackPanel>
     </Grid>

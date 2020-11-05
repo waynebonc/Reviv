@@ -153,6 +153,19 @@ namespace Reviv
             }
         }
 
+        private void StartOver_Click(object sender, RoutedEventArgs e)
+        {
+            ThirdPanel.Visibility = Visibility.Collapsed;
+            FirstPanel.Visibility = Visibility.Visible;
+
+            // TODO: Clear SysCfg grid children
+        }
+
+        private void SaveTxt_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Export List
+        }
+
         private string StringReverse(string s)
         {
             char[] charArr = s.ToCharArray();
