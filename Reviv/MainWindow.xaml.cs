@@ -66,7 +66,12 @@ namespace Reviv
 
         private void Riviv_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Check file size
+            // Check file size
+            if (new FileInfo(_BootFilePath).Length > (1024 * 1024 * 25))
+            {
+                MessageBox.Show(this, "File is too big. Maximum allowed is 25MB.", "Unsupported", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             // Read the file
             _BootFileDump = File.ReadAllBytes(_BootFilePath);
@@ -89,6 +94,8 @@ namespace Reviv
 
         private void CarveSysCfgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            // TODO: Make progress bar work and show file name
+
             // Iterate all keys and attempt carving
             foreach (SysCfgItem item in _SysCfg)
             {
