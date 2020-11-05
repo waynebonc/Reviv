@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 
@@ -15,6 +15,7 @@ namespace Reviv
     {
         private string _BootFilePath;
         private readonly List<SysCfgItem> _SysCfg;
+        private BackgroundWorker _CarveSysCfgWorker;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,6 +28,28 @@ namespace Reviv
                 new SysCfgItem { Key = "WMac", DisplayName = "Wi-Fi MAC Address", IsHex = true},
                 new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true}
             };
+
+            _CarveSysCfgWorker = new BackgroundWorker();
+            _CarveSysCfgWorker.DoWork += CarveSysCfgWorker_DoWork;
+            _CarveSysCfgWorker.ProgressChanged += CarveSysCfgWorker_ProgressChanged;
+            _CarveSysCfgWorker.RunWorkerCompleted += CarveSysCfgWorker_RunWorkerCompleted;
+            _CarveSysCfgWorker.WorkerReportsProgress = true;
+            // _CarveSysCfgWorker.WorkerSupportsCancellation = true;
+        }
+
+        private void CarveSysCfgWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CarveSysCfgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void SelectBootFile_Click(object sender, RoutedEventArgs e)
