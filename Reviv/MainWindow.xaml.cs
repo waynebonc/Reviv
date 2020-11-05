@@ -14,18 +14,18 @@ namespace Reviv
     public partial class MainWindow : Window
     {
         private string _BootFilePath;
-        private readonly Dictionary<string, string> _SysCfg;
+        private readonly List<SysCfgItem> _SysCfg;
         public MainWindow()
         {
             InitializeComponent();
 
             _BootFilePath = null;
 
-            _SysCfg = new Dictionary<string, string>
+            _SysCfg = new List<SysCfgItem>
             {
-                {"SrNm", "" },
-                {"WMac", "" },
-                {"BMac", "" }
+                new SysCfgItem { Key = "SrNm", DisplayName = "Serial Number", IsHex = false},
+                new SysCfgItem { Key = "WMac", DisplayName = "Wi-Fi MAC Address", IsHex = true},
+                new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true}
             };
         }
 
