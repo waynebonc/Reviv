@@ -6,17 +6,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Visibility="Visible">
+        <StackPanel Visibility="Visible" Name="FirstPanel">
             <Label>Reviv</Label>
             <TextBlock TextWrapping="Wrap">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut mauris a lectus dapibus efficitur. Donec nisl est, luctus ut sem eget, consectetur dictum quam.</TextBlock>
             <StackPanel Orientation="Horizontal">
                 <Label Name="BootFileLabel">boot2_ipx.bin</Label>
                 <Button x:Name="SelectBootFile" Click="SelectBootFile_Click">Select Boot File</Button>
             </StackPanel>
-            <Button x:Name="Riviv" Visibility="Hidden">Reviv it</Button>
+            <Button x:Name="Riviv" Visibility="Hidden" Click="Riviv_Click">Reviv it</Button>
         </StackPanel>
 
-        <StackPanel Visibility="Collapsed">
+        <StackPanel Visibility="Collapsed" Name="SecondPanel">
             <TextBlock>
                 <Run>Performing SysCfg acquisition on</Run>
                 <Run>boot2_ipx.bin</Run>
@@ -24,7 +24,7 @@
             <ProgressBar Height="20"></ProgressBar>
         </StackPanel>
 
-        <StackPanel Visibility="Collapsed">
+        <StackPanel Visibility="Collapsed" Name="ThirdPanel">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>

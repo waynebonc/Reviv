@@ -1,6 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace Reviv
@@ -11,11 +14,19 @@ namespace Reviv
     public partial class MainWindow : Window
     {
         private string _BootFilePath;
+        private readonly Dictionary<string, string> _SysCfg;
         public MainWindow()
         {
             InitializeComponent();
 
             _BootFilePath = null;
+
+            _SysCfg = new Dictionary<string, string>
+            {
+                {"SrNm", "" },
+                {"WMac", "" },
+                {"BMac", "" }
+            };
         }
 
         private void SelectBootFile_Click(object sender, RoutedEventArgs e)
@@ -33,6 +44,26 @@ namespace Reviv
                 BootFileLabel.Content = Path.GetFileName(_BootFilePath);
                 Riviv.Visibility = Visibility.Visible;
             }
+        }
+
+        private void Riviv_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] dump = File.ReadAllBytes(_BootFilePath);
+
+            byte[] syscfgItem = Encoding.ASCII.GetBytes(StringReverse("SrNm"));
+
+            var bm = new BoyerMoore();
+
+            bm.SetPattern(syscfgItem);
+
+            var index = bm.Search(dump);
+        }
+
+        private string StringReverse(string s)
+        {
+            char[] charArr = s.ToCharArray();
+            Array.Reverse(charArr);
+            return new string(charArr);
         }
     }
 }
