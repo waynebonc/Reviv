@@ -66,6 +66,8 @@ namespace Reviv
 
         private void Riviv_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Check file size
+
             // Read the file
             _BootFileDump = File.ReadAllBytes(_BootFilePath);
 
@@ -158,7 +160,8 @@ namespace Reviv
             ThirdPanel.Visibility = Visibility.Collapsed;
             FirstPanel.Visibility = Visibility.Visible;
 
-            // TODO: Clear SysCfg grid children
+            CarvedSysCfgGrid.Children.Clear();
+            CarvedSysCfgGrid.RowDefinitions.RemoveRange(1, CarvedSysCfgGrid.RowDefinitions.Count - 1);
         }
 
         private void SaveTxt_Click(object sender, RoutedEventArgs e)
