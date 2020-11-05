@@ -16,9 +16,13 @@ namespace Reviv
         private string _BootFilePath;
         private readonly List<SysCfgItem> _SysCfg;
         private BackgroundWorker _CarveSysCfgWorker;
+        private BoyerMoore _BoyerMoore;
+        private byte[] _BootFileDump;
         public MainWindow()
         {
             InitializeComponent();
+
+            _BoyerMoore = new BoyerMoore();
 
             _BootFilePath = null;
 
@@ -35,21 +39,6 @@ namespace Reviv
             _CarveSysCfgWorker.RunWorkerCompleted += CarveSysCfgWorker_RunWorkerCompleted;
             _CarveSysCfgWorker.WorkerReportsProgress = true;
             // _CarveSysCfgWorker.WorkerSupportsCancellation = true;
-        }
-
-        private void CarveSysCfgWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CarveSysCfgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void SelectBootFile_Click(object sender, RoutedEventArgs e)
@@ -71,15 +60,63 @@ namespace Reviv
 
         private void Riviv_Click(object sender, RoutedEventArgs e)
         {
-            byte[] dump = File.ReadAllBytes(_BootFilePath);
+            // Read the file
+            _BootFileDump = File.ReadAllBytes(_BootFilePath);
 
-            byte[] syscfgItem = Encoding.ASCII.GetBytes(StringReverse("SrNm"));
+            // Validate for carving eligibility
+            _BoyerMoore.SetPattern(Encoding.ASCII.GetBytes(StringReverse("SCfg")));
 
-            var bm = new BoyerMoore();
+            if (_BoyerMoore.Search(_BootFileDump) == -1)
+            {
+                MessageBox.Show(this, "This file does not contain SysCfg data.", "Unable", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            // Start carving
+            if (!_CarveSysCfgWorker.IsBusy)
+            {
+                _CarveSysCfgWorker.RunWorkerAsync();
+            }
+        }
 
-            bm.SetPattern(syscfgItem);
+        private void CarveSysCfgWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Iterate all keys and attempt carving
+            foreach (SysCfgItem item in _SysCfg)
+            {
+                byte[] keyBytes = Encoding.ASCII.GetBytes(StringReverse(item.Key));
 
-            var index = bm.Search(dump);
+                _BoyerMoore.SetPattern(keyBytes);
+
+                int index =_BoyerMoore.Search(_BootFileDump);
+
+                if (index != -1)
+                {
+                    // Offset acquisition by key length
+                    int i = index + item.Key.Length;
+
+                    List<byte> buffer = new List<byte>();
+
+                    // Limit carving to 50 bytes just in case this location is corrupted
+                    while (_BootFileDump[i] != 0 && buffer.Count < 50)
+                    {
+                        buffer.Add(_BootFileDump[i]);
+                        i++;
+                    }
+
+                    item.RawValue = buffer.ToArray();
+                }
+            }
+        }
+
+        private void CarveSysCfgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            CarveProgress.Value = e.ProgressPercentage;
+        }
+
+        private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private string StringReverse(string s)

@@ -21,7 +21,7 @@
                 <Run>Performing SysCfg acquisition on</Run>
                 <Run>boot2_ipx.bin</Run>
             </TextBlock>
-            <ProgressBar Height="20"></ProgressBar>
+            <ProgressBar Height="20" Name="CarveProgress"></ProgressBar>
         </StackPanel>
 
         <StackPanel Visibility="Collapsed" Name="ThirdPanel">
