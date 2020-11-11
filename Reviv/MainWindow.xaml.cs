@@ -41,9 +41,7 @@ namespace Reviv
 
             _CarveSysCfgWorker = new BackgroundWorker();
             _CarveSysCfgWorker.DoWork += CarveSysCfgWorker_DoWork;
-            _CarveSysCfgWorker.ProgressChanged += CarveSysCfgWorker_ProgressChanged;
             _CarveSysCfgWorker.RunWorkerCompleted += CarveSysCfgWorker_RunWorkerCompleted;
-            _CarveSysCfgWorker.WorkerReportsProgress = true;
             // _CarveSysCfgWorker.WorkerSupportsCancellation = true;
         }
 
@@ -124,15 +122,10 @@ namespace Reviv
             }
         }
 
-        private void CarveSysCfgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            CarveProgress.Value = e.ProgressPercentage;
-        }
-
         private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            FirstPanel.Visibility = Visibility.Collapsed;
-            ThirdPanel.Visibility = Visibility.Visible;
+            GreetingPanel.Visibility = Visibility.Collapsed;
+            ResultPanel.Visibility = Visibility.Visible;
 
             foreach (SysCfgItem item in _SysCfg)
             {
@@ -164,8 +157,8 @@ namespace Reviv
 
         private void StartOver_Click(object sender, RoutedEventArgs e)
         {
-            ThirdPanel.Visibility = Visibility.Collapsed;
-            FirstPanel.Visibility = Visibility.Visible;
+            ResultPanel.Visibility = Visibility.Collapsed;
+            GreetingPanel.Visibility = Visibility.Visible;
 
             CarvedSysCfgGrid.Children.Clear();
             CarvedSysCfgGrid.RowDefinitions.RemoveRange(1, CarvedSysCfgGrid.RowDefinitions.Count - 1);

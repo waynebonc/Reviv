@@ -6,28 +6,20 @@
         mc:Ignorable="d"
         Title="" Height="350" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="CanResize" WindowStyle="ToolWindow">
     <Grid>
-        <StackPanel Visibility="Visible" Name="FirstPanel" HorizontalAlignment="Center">
+        <StackPanel Visibility="Visible" Name="GreetingPanel" HorizontalAlignment="Center">
             <TextBlock FontSize="45" HorizontalAlignment="Center" Margin="0 15 0 10">Reviv</TextBlock>
-            
+
             <TextBlock FontSize="15" HorizontalAlignment="Center" MaxWidth="500" TextWrapping="Wrap">A NAND SysCfg extraction utility using forensic file carving techniques.</TextBlock>
-            
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 35 0 40">
                 <Label Name="BootFileLabel">No File Selected</Label>
                 <Button x:Name="SelectBootFile" Click="SelectBootFile_Click" Width="100" Height="30">Select Boot File</Button>
             </StackPanel>
-            
+
             <Button x:Name="Riviv" Visibility="Hidden" HorizontalAlignment="Center" Click="Riviv_Click" Width="150" Height="50">Reviv it</Button>
         </StackPanel>
 
-        <StackPanel Visibility="Collapsed" Name="SecondPanel">
-            <TextBlock>
-                <Run>Performing SysCfg acquisition on</Run>
-                <Run>boot2_ipx.bin</Run>
-            </TextBlock>
-            <ProgressBar Height="20" Name="CarveProgress"></ProgressBar>
-        </StackPanel>
-
-        <StackPanel Visibility="Collapsed" Name="ThirdPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Visibility="Collapsed" Name="ResultPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid x:Name="CarvedSysCfgGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
