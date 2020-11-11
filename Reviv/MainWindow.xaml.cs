@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -92,7 +90,6 @@ namespace Reviv
 
         private void CarveSysCfgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // TODO: Make progress bar work and show file name
 
             // Iterate all keys and attempt carving
             foreach (SysCfgItem item in _SysCfg)
@@ -131,13 +128,13 @@ namespace Reviv
             {
                 CarvedSysCfgGrid.RowDefinitions.Add(new RowDefinition());
 
-                System.Windows.Controls.Label name = new System.Windows.Controls.Label();
+                Label name = new Label();
                 name.Content = item.DisplayName;
                 CarvedSysCfgGrid.Children.Add(name);
                 Grid.SetRow(name, CarvedSysCfgGrid.RowDefinitions.Count - 1);
                 Grid.SetColumn(name, CarvedSysCfgGrid.ColumnDefinitions.Count - 2);
 
-                System.Windows.Controls.Label value = new System.Windows.Controls.Label();
+                Label value = new Label();
 
                 if (item.RawValue != null)
                 {
@@ -166,7 +163,40 @@ namespace Reviv
 
         private void SaveTxt_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Export List
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.FileName = $"{Path.GetFileNameWithoutExtension(_BootFilePath)}.txt";
+            saveDialog.Filter = "Text File (*.txt)|*.txt|All Files (*.*)|*.*";
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                string exportText = "";
+
+                foreach (SysCfgItem item in _SysCfg)
+                {
+                    if (item.RawValue != null)
+                    {
+                        exportText += $"{item.DisplayName}: {(item.IsHex ? ByteArrToString(item.RawValue) : Encoding.ASCII.GetString(item.RawValue))}";
+                    }
+                    else
+                    {
+                        exportText += "N/A";
+                    }
+
+                    if (!item.Key.GetHashCode().Equals(_SysCfg[_SysCfg.Count - 1].Key.GetHashCode()))
+                    {
+                        exportText += "\n";
+                    }
+                }
+
+                try
+                {
+                    File.WriteAllText(saveDialog.FileName, exportText);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, $"Could not export SysCfg.\nMessage: {ex.Message}");
+                }
+            }
         }
 
         private string StringReverse(string s)
