@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="" Height="350" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="CanResize" WindowStyle="ToolWindow">
+        Title="" Height="350" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"  WindowStyle="ToolWindow">
     <Grid>
-        <StackPanel Visibility="Visible" Name="GreetingPanel" HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Grid.Column="0" Visibility="Visible" Name="GreetingPanel" HorizontalAlignment="Center">
             <TextBlock FontSize="45" HorizontalAlignment="Center" Margin="0 15 0 10">Reviv</TextBlock>
 
             <TextBlock FontSize="15" HorizontalAlignment="Center" MaxWidth="500" TextWrapping="Wrap">A NAND SysCfg extraction utility using forensic file carving techniques.</TextBlock>
@@ -19,7 +27,7 @@
             <Button x:Name="Riviv" Visibility="Hidden" HorizontalAlignment="Center" Click="Riviv_Click" Width="150" Height="50">Reviv it</Button>
         </StackPanel>
 
-        <StackPanel Visibility="Collapsed" Name="ResultPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="0" Visibility="Collapsed" Name="ResultPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 0">
             <Grid x:Name="CarvedSysCfgGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -44,5 +52,7 @@
                 <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25" Name="SaveTxt" Click="SaveTxt_Click">Save as .txt</Button>
             </Grid>
         </StackPanel>
+
+        <Label Grid.Row="1" Grid.Column="0" Name="ToolVersion" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11"></Label>
     </Grid>
 </Window>

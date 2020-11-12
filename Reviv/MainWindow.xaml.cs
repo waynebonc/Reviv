@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +43,17 @@ namespace Reviv
             _CarveSysCfgWorker = new BackgroundWorker();
             _CarveSysCfgWorker.DoWork += CarveSysCfgWorker_DoWork;
             _CarveSysCfgWorker.RunWorkerCompleted += CarveSysCfgWorker_RunWorkerCompleted;
+
+            try
+            {
+                Assembly selfAssembly = Assembly.GetExecutingAssembly();
+#if DEBUG
+                ToolVersion.Content = $"(DEBUG) v{FileVersionInfo.GetVersionInfo(selfAssembly.Location).FileVersion}";
+#else
+                ToolVersion.Content = $"v{FileVersionInfo.GetVersionInfo(selfAssembly.Location).FileVersion}";
+#endif
+            }
+            catch { }
         }
 
         private void SelectBootFile_Click(object sender, RoutedEventArgs e)
