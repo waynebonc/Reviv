@@ -21,10 +21,10 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 35 0 40">
                 <Label Name="BootFileLabel">No File Selected</Label>
-                <Button x:Name="SelectBootFile" Click="SelectBootFile_Click" Width="100" Height="30">Select Boot File</Button>
+                <Button x:Name="SelectBootFile" Click="SelectBootFile_Click" Width="100" Height="30" IsTabStop="False" FocusVisualStyle="{x:Null}">Select Boot File</Button>
             </StackPanel>
 
-            <Button x:Name="Riviv" Visibility="Hidden" HorizontalAlignment="Center" Click="Riviv_Click" Width="150" Height="50">Reviv it</Button>
+            <Button x:Name="Riviv" Visibility="Hidden" HorizontalAlignment="Center" Click="Riviv_Click" Width="150" Height="50" IsTabStop="False" FocusVisualStyle="{x:Null}">Reviv it</Button>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Visibility="Collapsed" Name="ResultPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 0">
@@ -48,8 +48,8 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="0" Width="90" Height="25" Name="StartOver" Click="StartOver_Click">Start Over</Button>
-                <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25" Name="SaveTxt" Click="SaveTxt_Click">Save as .txt</Button>
+                <Button Grid.Column="0" Grid.Row="0" Width="90" Height="25" Name="StartOver" Click="StartOver_Click" IsTabStop="False" FocusVisualStyle="{x:Null}">Start Over</Button>
+                <Button Grid.Column="1" Grid.Row="0" Width="90" Height="25" Name="SaveTxt" Click="SaveTxt_Click" IsTabStop="False" FocusVisualStyle="{x:Null}">Save as .txt</Button>
             </Grid>
         </StackPanel>
 
