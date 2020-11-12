@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Reviv
 {
@@ -93,6 +94,7 @@ namespace Reviv
             if (!_CarveSysCfgWorker.IsBusy)
             {
                 _CarveSysCfgWorker.RunWorkerAsync();
+                Mouse.OverrideCursor = Cursors.Wait;
             }
         }
 
@@ -176,6 +178,7 @@ namespace Reviv
                     Grid.SetColumn(value, CarvedSysCfgGrid.ColumnDefinitions.Count - 1);
                 }
             }
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
 
         private void StartOver_Click(object sender, RoutedEventArgs e)
