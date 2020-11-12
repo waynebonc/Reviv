@@ -70,7 +70,15 @@ namespace Reviv
             }
 
             // Read the file
-            _BootFileDump = File.ReadAllBytes(_BootFilePath);
+            try
+            {
+                _BootFileDump = File.ReadAllBytes(_BootFilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Could not read selected file.\nMessage: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             // Validate for carving eligibility
             _BoyerMoore.SetPattern(Encoding.ASCII.GetBytes(StringReverse("SCfg")));
