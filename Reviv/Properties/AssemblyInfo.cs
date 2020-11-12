@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Reviv")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Reviv")]
 [assembly: AssemblyProduct("Reviv")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © Wayne Bonnici 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

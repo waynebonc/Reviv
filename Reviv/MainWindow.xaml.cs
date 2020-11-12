@@ -41,7 +41,6 @@ namespace Reviv
             _CarveSysCfgWorker = new BackgroundWorker();
             _CarveSysCfgWorker.DoWork += CarveSysCfgWorker_DoWork;
             _CarveSysCfgWorker.RunWorkerCompleted += CarveSysCfgWorker_RunWorkerCompleted;
-            // _CarveSysCfgWorker.WorkerSupportsCancellation = true;
         }
 
         private void SelectBootFile_Click(object sender, RoutedEventArgs e)
