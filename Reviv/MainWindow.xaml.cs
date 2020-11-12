@@ -29,12 +29,12 @@ namespace Reviv
 
             _SysCfg = new List<SysCfgItem>
             {
-                new SysCfgItem { Key = "SrNm", DisplayName = "Serial Number", IsHex = false},
-                new SysCfgItem { Key = "WMac", DisplayName = "Wi-Fi MAC Address", IsHex = true},
-                new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true},
-                new SysCfgItem { Key = "Mod#", DisplayName = "Model Number", IsHex = false},
-                new SysCfgItem { Key = "Regn", DisplayName = "Region", IsHex = false},
-                new SysCfgItem { Key = "RMd#", DisplayName = "Model", IsHex = false}
+                new SysCfgItem { Key = "SrNm", DisplayName = "Serial Number", IsHex = false },
+                new SysCfgItem { Key = "WMac", DisplayName = "Wi-Fi MAC Address", IsHex = true },
+                new SysCfgItem { Key = "BMac", DisplayName = "Bluetooth MAC Address", IsHex = true },
+                new SysCfgItem { Key = "Mod#", DisplayName = "Model Number", IsHex = false },
+                new SysCfgItem { Key = "Regn", DisplayName = "Region", IsHex = false },
+                new SysCfgItem { Key = "RMd#", DisplayName = "Model", IsHex = false }
             };
 
             _CarveSysCfgWorker = new BackgroundWorker();
@@ -102,7 +102,22 @@ namespace Reviv
             // Iterate all keys and attempt carving
             foreach (SysCfgItem item in _SysCfg)
             {
-                byte[] keyBytes = Encoding.ASCII.GetBytes(StringReverse(item.Key));
+                byte[] keyBytes;
+
+                try
+                {
+                    keyBytes = Encoding.ASCII.GetBytes(StringReverse(item.Key));
+                }
+                catch (Exception ex)
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        MessageBox.Show(this, $"Something went wrong.\nMessage: {ex.Message}");
+                    }));
+
+                    e.Cancel = true;
+                    return;
+                }
 
                 _BoyerMoore.SetPattern(keyBytes);
 
@@ -129,34 +144,37 @@ namespace Reviv
 
         private void CarveSysCfgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            GreetingPanel.Visibility = Visibility.Collapsed;
-            ResultPanel.Visibility = Visibility.Visible;
-
-            foreach (SysCfgItem item in _SysCfg)
+            if (!e.Cancelled)
             {
-                CarvedSysCfgGrid.RowDefinitions.Add(new RowDefinition());
+                GreetingPanel.Visibility = Visibility.Collapsed;
+                ResultPanel.Visibility = Visibility.Visible;
 
-                Label name = new Label();
-                name.Content = item.DisplayName;
-                CarvedSysCfgGrid.Children.Add(name);
-                Grid.SetRow(name, CarvedSysCfgGrid.RowDefinitions.Count - 1);
-                Grid.SetColumn(name, CarvedSysCfgGrid.ColumnDefinitions.Count - 2);
-
-                Label value = new Label();
-
-                if (item.RawValue != null)
+                foreach (SysCfgItem item in _SysCfg)
                 {
-                    value.Content = item.IsHex ? ByteArrToString(item.RawValue) : Encoding.ASCII.GetString(item.RawValue);
-                }
-                else
-                {
-                    value.Content = "Acquisition Failed";
-                    value.Foreground = System.Windows.Media.Brushes.Red;
-                }
+                    CarvedSysCfgGrid.RowDefinitions.Add(new RowDefinition());
 
-                CarvedSysCfgGrid.Children.Add(value);
-                Grid.SetRow(value, CarvedSysCfgGrid.RowDefinitions.Count - 1);
-                Grid.SetColumn(value, CarvedSysCfgGrid.ColumnDefinitions.Count - 1);
+                    Label name = new Label();
+                    name.Content = item.DisplayName;
+                    CarvedSysCfgGrid.Children.Add(name);
+                    Grid.SetRow(name, CarvedSysCfgGrid.RowDefinitions.Count - 1);
+                    Grid.SetColumn(name, CarvedSysCfgGrid.ColumnDefinitions.Count - 2);
+
+                    Label value = new Label();
+
+                    if (item.RawValue != null)
+                    {
+                        value.Content = item.IsHex ? ByteArrToString(item.RawValue) : Encoding.ASCII.GetString(item.RawValue);
+                    }
+                    else
+                    {
+                        value.Content = "Acquisition Failed";
+                        value.Foreground = System.Windows.Media.Brushes.Red;
+                    }
+
+                    CarvedSysCfgGrid.Children.Add(value);
+                    Grid.SetRow(value, CarvedSysCfgGrid.RowDefinitions.Count - 1);
+                    Grid.SetColumn(value, CarvedSysCfgGrid.ColumnDefinitions.Count - 1);
+                }
             }
         }
 
